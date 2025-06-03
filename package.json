@@ -1,0 +1,20 @@
+{
+    "name": "wordle-mern-app",
+    "version": "1.0.0",
+    "description": "Full-stack Wordle game with React frontend and Express backend",
+    "scripts": {
+      "dev": "concurrently \"npm run server\" \"npm run client\"",
+      "server": "cd backend && npm run dev",
+      "client": "cd frontend && npm run dev",
+      "build": "cd frontend && npm run build",
+      "start": "cd backend && npm start",
+      "install-deps": "npm install && cd backend && npm install && cd ../frontend && npm install",
+      "vercel-build": "cd frontend && npm install && npm run build"
+    },
+    "keywords": ["wordle", "react", "express", "mern"],
+    "author": "Vikramaditya Sharma",
+    "license": "ISC",
+    "devDependencies": {
+      "concurrently": "^7.6.0"
+    }
+  }
