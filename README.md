@@ -64,19 +64,16 @@ Sends a guessed word to the backend and receives position feedback.
 
 ### Desktop View
 
-![Desktop](./screenshots/desktop.png)
+![Desktop](./frontend/public/screenshots/desktop.jpeg)
 
 ### Wrong Guess
 
-![Mobile](./frontend/screenshots/mobile.jpeg)
+![Mobile](./frontend/public/screenshots/mobile.jpeg)
 
 ### Game Completion
 
-![Win](./screenshots/win.png)
+![Win](./frontend/public/screenshots/win.jpeg)
 
-### API Response Example
-
-![API](./screenshots/api-example.png)
 
 ## 🚀 Running Locally
 
