@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Wordle Clone
 
 ## Description
@@ -39,6 +38,4 @@ No environment variables are required.
 ## Target Audience
 This game is designed for people who enjoy brain teasers and word puzzles.
 
-=======
-# Wordle-Clone
->>>>>>> a1694167b8318d3741fc5b3e9a246b31621579bd
+
