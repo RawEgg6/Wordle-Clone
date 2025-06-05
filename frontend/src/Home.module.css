@@ -42,9 +42,10 @@
 
 .wordArea {
     display: flex;
+    width: max-content;
     justify-content: center;
     align-items: center;
-    margin-top: 150px;
+    margin-top: 35%;
     flex-direction: column;
     gap: .4rem;
 }
