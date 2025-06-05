@@ -5,8 +5,8 @@ function Home(){
 
     const inputRefs = useRef([]);
     const keyboardRefs = useRef({});
-    let thresholdValueLower = 0
-    let thresholdValueUpper = 4
+    let thresholdValueLower = useRef(0)
+    let thresholdValueUpper = useRef(4)
     const currentIndex = useRef(0);
     const [notification, setNotification] = useState(null);
     
@@ -29,10 +29,10 @@ function Home(){
     //This took so long lmao
     function handleLetter(key){
         
-        console.log(key, thresholdValueLower, currentIndex.current, thresholdValueUpper)
-        if(key == "Enter" && currentIndex.current - 1 == thresholdValueUpper){
+        console.log(key, thresholdValueLower.current, currentIndex.current, thresholdValueUpper.current)
+        if(key == "Enter" && currentIndex.current - 1 == thresholdValueUpper.current){
             let word = ""
-            for(let i = thresholdValueLower ; i <= thresholdValueUpper; i++){
+            for(let i = thresholdValueLower.current ; i <= thresholdValueUpper.current; i++){
                 word += inputRefs.current[i].innerHTML
             }
             
@@ -40,13 +40,13 @@ function Home(){
             return;
         }
 
-        else if(key == "Backspace" && currentIndex.current - 1 >= thresholdValueLower){
+        else if(key == "Backspace" && currentIndex.current - 1 >= thresholdValueLower.current){
             console.log("here B")
             inputRefs.current[--currentIndex.current].innerHTML = ""
             
         }
 
-        else if (currentIndex.current >= thresholdValueLower && currentIndex.current <= thresholdValueUpper && /^[a-z]$/.test(key.toLowerCase())){
+        else if (currentIndex.current >= thresholdValueLower.current && currentIndex.current <= thresholdValueUpper.current && /^[a-z]$/.test(key.toLowerCase())){
             inputRefs.current[currentIndex.current].innerHTML = key;
             currentIndex.current++;
             return;
@@ -58,7 +58,7 @@ function Home(){
     function handleSubmission(answer) { 
         let count = 0;
 
-        for(let i = thresholdValueLower; i <= thresholdValueUpper; i++){
+        for(let i = thresholdValueLower.current; i <= thresholdValueUpper.current; i++){
             inputRefs.current[i].style.backgroundColor = "gray";
             if(keyboardRefs.current[inputRefs.current[i].innerHTML].style.color != "white"){
                 keyboardRefs.current[inputRefs.current[i].innerHTML].style.backgroundColor = "gray";
@@ -67,15 +67,15 @@ function Home(){
         }
         for (const pos in answer) {
           if (answer[pos] === "correct") {
-            inputRefs.current[thresholdValueLower + Number(pos)].style.backgroundColor = "seagreen";
-            keyboardRefs.current[inputRefs.current[thresholdValueLower + Number(pos)].innerHTML].style.backgroundColor = "seagreen";
-            keyboardRefs.current[inputRefs.current[thresholdValueLower + Number(pos)].innerHTML].style.color = "white"
+            inputRefs.current[thresholdValueLower.current + Number(pos)].style.backgroundColor = "seagreen";
+            keyboardRefs.current[inputRefs.current[thresholdValueLower.current + Number(pos)].innerHTML].style.backgroundColor = "seagreen";
+            keyboardRefs.current[inputRefs.current[thresholdValueLower.current + Number(pos)].innerHTML].style.color = "white"
             count++;
           } else if (answer[pos] === "position") {
-            inputRefs.current[thresholdValueLower + Number(pos) ].style.backgroundColor = "#E49B0F";
-            if(keyboardRefs.current[inputRefs.current[thresholdValueLower + Number(pos)].innerHTML].style.backgroundColor != "seagreen"){
-                keyboardRefs.current[inputRefs.current[thresholdValueLower + Number(pos)].innerHTML].style.backgroundColor = "#E49B0F";
-                keyboardRefs.current[inputRefs.current[thresholdValueLower + Number(pos)].innerHTML].style.color = "white"
+            inputRefs.current[thresholdValueLower.current + Number(pos) ].style.backgroundColor = "#E49B0F";
+            if(keyboardRefs.current[inputRefs.current[thresholdValueLower.current + Number(pos)].innerHTML].style.backgroundColor != "seagreen"){
+                keyboardRefs.current[inputRefs.current[thresholdValueLower.current + Number(pos)].innerHTML].style.backgroundColor = "#E49B0F";
+                keyboardRefs.current[inputRefs.current[thresholdValueLower.current + Number(pos)].innerHTML].style.color = "white"
             }
 
           }
@@ -86,8 +86,8 @@ function Home(){
         }
 
         else{
-            thresholdValueLower += 5;
-            thresholdValueUpper += 5
+            thresholdValueLower.current += 5;
+            thresholdValueUpper.current += 5
 
         }
         return;
