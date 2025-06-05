@@ -7,7 +7,7 @@ function Home(){
     const keyboardRefs = useRef({});
     let thresholdValueLower = 0
     let thresholdValueUpper = 4
-    let currentIndex;
+    const currentIndex = useRef(0);
     const [notification, setNotification] = useState(null);
     
     // API Base URL - use environment variable or fallback to relative URL for production
@@ -29,8 +29,8 @@ function Home(){
     //This took so long lmao
     function handleLetter(key){
         
-
-        if(key == "Enter" && currentIndex - 1 == thresholdValueUpper){
+        console.log(key, thresholdValueLower, currentIndex.current, thresholdValueUpper)
+        if(key == "Enter" && currentIndex.current - 1 == thresholdValueUpper){
             let word = ""
             for(let i = thresholdValueLower ; i <= thresholdValueUpper; i++){
                 word += inputRefs.current[i].innerHTML
@@ -40,15 +40,15 @@ function Home(){
             return;
         }
 
-        else if(key == "Backspace" && currentIndex - 1 >= thresholdValueLower){
-        
-            inputRefs.current[--currentIndex].innerHTML = ""
+        else if(key == "Backspace" && currentIndex.current - 1 >= thresholdValueLower){
+            console.log("here B")
+            inputRefs.current[--currentIndex.current].innerHTML = ""
             
         }
 
-        else if (currentIndex >= thresholdValueLower && currentIndex <= thresholdValueUpper && /^[a-z]$/.test(key.toLowerCase())){
-            inputRefs.current[currentIndex].innerHTML = key;
-            currentIndex++;
+        else if (currentIndex.current >= thresholdValueLower && currentIndex.current <= thresholdValueUpper && /^[a-z]$/.test(key.toLowerCase())){
+            inputRefs.current[currentIndex.current].innerHTML = key;
+            currentIndex.current++;
             return;
         }
     }
@@ -82,13 +82,12 @@ function Home(){
         }
         if(count == 5){
             showNotification("Word found", "success");
-            
+            currentIndex.current = -1
         }
 
         else{
             thresholdValueLower += 5;
-            thresholdValueUpper += 5;
-            console.log(thresholdValueLower, thresholdValueUpper, currentIndex)
+            thresholdValueUpper += 5
 
         }
         return;
@@ -129,17 +128,14 @@ function Home(){
     useEffect(() => {
         const handleKeyDown = (event) => {
             handleLetter(event.key)
-          
         };
-        currentIndex = 0;
-        console.log("here" + currentIndex)
+        
+        currentIndex.current = 0;
+        console.log("Effect running, currentIndex:", currentIndex.current)
         
         window.addEventListener("keydown", handleKeyDown);
 
-        return () => {
-            window.removeEventListener("keydown", handleKeyDown);
-        };
-
+        // Keep warm interval
         const keepWarm = setInterval(async () => {
             try {
                 await fetch(`${API_BASE_URL}/api/health`); // or any lightweight endpoint
@@ -147,9 +143,13 @@ function Home(){
                 // Ignore errors, just trying to keep warm
             }
         }, 5 * 60 * 1000); // 5 minutes
-    
-        return () => clearInterval(keepWarm);
-      }, []);
+
+        // Single cleanup function that handles both
+        return () => {
+            window.removeEventListener("keydown", handleKeyDown);
+            clearInterval(keepWarm);
+        };
+    }, []);
       
     
     return(
