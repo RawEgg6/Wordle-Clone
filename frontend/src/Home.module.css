@@ -152,7 +152,7 @@
 /* Mobile-specific adjustments */
 @media (max-width: 768px) {
     .header {
-        padding: 12px 4%;
+        padding: 12px 9%;
     }
     
     .wordArea {
@@ -182,7 +182,7 @@
 /* Very small screens */
 @media (max-width: 480px) {
     .header {
-        padding: 10px 3%;
+        padding: 10px 9%;
     }
     
     .navbar {
